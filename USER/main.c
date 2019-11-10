@@ -1,14 +1,19 @@
 #include "main.h"
 #define BUF_LEN 8
+
 #define autoModeButton PAin(0)
 #define emerStopButton PAin(1)
 #define wirelessStopButton PCin(0)
 #define cheatBrakingButton PBin(12)
 #define offsetButton PGin(1)
+#define stateLED1  PAout(4)
+#define stateLED2  PAout(5)
+
 #define noBraking 1500
 #define maxBraking 2200
 #define cheatBrakingVal 26 // waiting to be tested
 u8 brakingVal = 0;
+u8 isDriverless = 0; //2019.11.10
 
 void write(USART_TypeDef* USARTx, uint8_t *Data,uint16_t len)
 {
@@ -42,7 +47,7 @@ int main(void)
 	{
 		sendBuf[5] = 0x00;
 		
-		if (emerStopButton==1||wirelessStopButton==0)//急停开关按下
+		if (emerStopButton==1||wirelessStopButton==1)//急停开关按下
 		{
 			sendBuf[5] |= 0x02;
 			LED1=1;
@@ -50,7 +55,7 @@ int main(void)
 		}
 		
 		
-		if (autoModeButton!=1&&(emerStopButton!=1&& wirelessStopButton != 0))//自动开关、急停均未按下,手动模式，无需踩刹
+		if (autoModeButton!=1&&(emerStopButton!=1&& wirelessStopButton != 1))//自动开关、急停均未按下,手动模式，无需踩刹
 		{
 			//sendBuf[5] |= 0x00;
 			LED1=1;
@@ -63,7 +68,7 @@ int main(void)
 			//if autoModeButton==1&&emerStopButton!=1&&wirelessStopButton != 0自动模式开关按下，急停并未按下，按上位机需求踩刹
 			sendBuf[5] |= 0x01;
 			LED1=0;
-			if(emerStopButton!=1&&wirelessStopButton != 0)
+			if(emerStopButton!=1&&wirelessStopButton != 1)
 			TIM_SetCompare1(TIM3,(u16)noBraking+(maxBraking-noBraking)/1000*brakingVal);
 		}
 		
@@ -82,7 +87,17 @@ int main(void)
 		if (offsetButton == 1)
 			sendBuf[5]|= 0x08;
 
-		
+		if(isDriverless == 0)
+		{
+			stateLED1 = 1;
+			stateLED2 = 0;
+			
+		}
+		else
+		{
+			stateLED1 = 0;
+			stateLED2 = 1;
+		}
 		sendBuf[BUF_LEN-1] = generate_check_sum(sendBuf,BUF_LEN-1);
 		write(USART1,sendBuf,BUF_LEN);
 		//printf("brakingVal : %d \r\n",brakingVal);

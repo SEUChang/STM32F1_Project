@@ -238,8 +238,8 @@ void USART1_IRQHandler(void)                	//串口1中断服务程序
 			}
 			if(RecCheckSum == rCh)
 			{
-				brakingVal = RecBuf[5];
-				
+				brakingVal = RecBuf[5] & 0x7f;
+				isDriverless = RecBuf[5] & 0x80;
 			}
 		}
 	

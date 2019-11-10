@@ -3,7 +3,8 @@
 #include "sys.h" 
 #include "delay.h"
 
-//开关——PA0，PA1下拉输入,PC0上拉
+//开关——PA0，PA1下拉输入, wirelessstop-PC0下拉
+//PA4 PA6 Driverless state 
 //制动力PB12 偏移开关PG1
 void KEY_Init(void) //IO初始化
 { 
@@ -19,19 +20,23 @@ void KEY_Init(void) //IO初始化
 	
 	//init PB12
 	GPIO_InitStructure.GPIO_Pin  = GPIO_Pin_12;
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD; //b12设置成输入，默认下拉	  
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD; //Pb12设置成输入，默认下拉	  
 	GPIO_Init(GPIOB, &GPIO_InitStructure);//初始化GPIOb12
 	
 	//init PG1
 	GPIO_InitStructure.GPIO_Pin  = GPIO_Pin_1;
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD; //g1设置成输入，默认下拉	  
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD; //pg1设置成输入，默认下拉	  
 	GPIO_Init(GPIOG, &GPIO_InitStructure);//初始化G1
 	
 	//初始化GPIOC.0
 	GPIO_InitStructure.GPIO_Pin  = GPIO_Pin_0;
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU; //PC0设置成输入，默认上拉	  
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD; //PC0设置成输入，默认下拉	  
 	GPIO_Init(GPIOC, &GPIO_InitStructure);//初始化GPIOC.
 
+  //初始化GPIOA.4 和CPIOA.6
+	GPIO_InitStructure.GPIO_Pin  = GPIO_Pin_4|GPIO_Pin_6;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP; //PA0设置成输出，默认下拉	  
+	GPIO_Init(GPIOA, &GPIO_InitStructure);//初始化GPIOA.0
 }
 //按键处理函数
 //返回按键值

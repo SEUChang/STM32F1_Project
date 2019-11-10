@@ -21,7 +21,8 @@
 #include "24l01.h"
 #include "wireless_data.h"
  
- 
+
+
 void system_init()
 {
 	delay_init();	    	   

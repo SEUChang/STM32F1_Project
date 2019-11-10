@@ -3,7 +3,7 @@
 ..\obj\can.o: ..\SYSTEM\sys\sys.h
 ..\obj\can.o: ..\USER\stm32f10x.h
 ..\obj\can.o: ..\CORE\core_cm3.h
-..\obj\can.o: F:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+..\obj\can.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 ..\obj\can.o: ..\USER\system_stm32f10x.h
 ..\obj\can.o: ..\USER\stm32f10x_conf.h
 ..\obj\can.o: ..\STM32F10x_FWLib\inc\stm32f10x_adc.h
@@ -33,4 +33,4 @@
 ..\obj\can.o: ..\HARDWARE\LED\led.h
 ..\obj\can.o: ..\SYSTEM\delay\delay.h
 ..\obj\can.o: ..\SYSTEM\usart\usart.h
-..\obj\can.o: F:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+..\obj\can.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
